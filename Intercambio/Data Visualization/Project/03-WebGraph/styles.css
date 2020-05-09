@@ -1,0 +1,173 @@
+
+
+.team {
+    fill: #fee8c8;
+}
+
+.team-html {
+    background-color: #fee8c8;
+}
+
+@font-face {
+    font-family: 'Arvo-Bold';
+    src: url('assets/Arvo-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Arvo';
+    src: url('assets/Arvo-Regular.ttf');
+}
+
+h1 {
+    float: left;
+    margin-top: 0;
+    font-family: 'Arvo';
+    color: #d20a11;
+}
+
+h2 {
+    font-family: 'Arvo';
+    color: #d20a11;
+    padding-bottom: 0px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+
+h3 {
+    float: left;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+* {
+    font-family: 'Arvo';
+}
+
+header {
+    padding: 0.5em;
+    clear: left;
+    text-align: left;
+    height: 100px;
+    float:left;
+}
+
+
+#details {
+    float: left;
+    width: 200px;
+    padding: 0.5em;
+
+    border-width: 1px;
+    border-color: #d9d9d9;
+    border-right-style: solid;
+}
+
+#plot-selector {
+    float: left;
+    margin-bottom: 5px;
+
+}
+
+.view {
+    padding: 0.5em;
+
+}
+
+#bar-chart {
+    width: 300px;
+    margin-right: 20px;
+}
+
+#my_dataviz {
+    float: left;
+}
+
+#left{
+    float:left;
+}
+
+path.link {
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+path.link0 {
+  fill: none;
+  stroke: green;
+  stroke-width: 1.5px;
+}
+path.link1 {
+  fill: none;
+  stroke: blue;
+  stroke-width: 1.5px;
+}
+path.link2 {
+  fill: none;
+  stroke: red;
+  stroke-width: 1.5px;
+}
+path.link3 {
+  fill: none;
+  stroke: yellow;
+  stroke-width: 1.5px;
+}
+path.link4 {
+  fill: none;
+  stroke: cyan;
+  stroke-width: 1.5px;
+}
+path.link5 {
+  fill: none;
+  stroke: orange;
+  stroke-width: 1.5px;
+}
+path.link6 {
+  fill: none;
+  stroke: purple;
+  stroke-width: 1.5px;
+}
+path.link7 {
+  fill: none;
+  stroke: fuchsia;
+  stroke-width: 1.5px;
+}
+path.link8 {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+#xAxis path,
+#yAxis path {
+    fill: none;
+    stroke: black;
+}
+
+#xAxis text,
+#yAxis text {
+    font-size: 14px;
+
+}
+
+div.tooltip {   
+    position: absolute;         
+    text-align: center;         
+    width: 30px;                    
+    height: 15px;                   
+    padding: 2px;               
+    font: 12px sans-serif;      
+    background: lightsteelblue; 
+    border: 0px;        
+    border-radius: 8px;         
+    pointer-events: none;           
+}
+div.tooltipN {   
+    position: absolute;         
+    text-align: center;
+    display: inline-block;                
+    padding: 2px;               
+    font: 12px sans-serif;      
+    background: lightsteelblue; 
+    border: 0px;        
+    border-radius: 8px;         
+    pointer-events: none;           
+}

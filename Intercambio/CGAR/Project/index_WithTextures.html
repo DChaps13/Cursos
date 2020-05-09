@@ -1,0 +1,542 @@
+<html>
+
+<!--
+Enrico Puppo, Università di Genova, 90258 - Computer Graphics and Augmented Reality
+Original code courtesy of Marco Tarini, Università dell'Insubria 
+Implementation 08: composing scenes
+-->
+
+<head>
+<style>
+body{font-family: Arial; font-size: large;}
+</style>
+
+                                    <!-- SHADERS -->
+    
+<script type="text/glsl" id="vertexShader">
+	uniform mat4 mvp;  // model-view-projection 
+	attribute vec3 vertexPos;
+	attribute vec3 normal; // per vertex - object space!
+	attribute vec2 a_texcoord;
+	varying vec3 norm_i;
+	varying vec2 v_texcoord;
+
+	void main(void) {
+		gl_Position = mvp*vec4( vertexPos , 1.0);
+		norm_i = normal;
+		v_texcoord=a_texcoord;
+	}
+</script>
+	
+<script type="text/glsl" id="fragmentShader">
+	precision highp float;
+	varying vec3 norm_i;
+	varying vec2 v_texcoord;
+	uniform sampler2D u_texture;
+	uniform vec3 lightDir; // object space!
+	uniform vec3 halfWay; // object space!
+    uniform vec3 colDiffuse;  // material: different for each object
+
+	vec3 lighting( vec3 norm ) {
+		// same material for all objects - play with it!
+		const vec3 colAmbient = vec3(0.25,0.15,0.2)*1.0;
+		const vec3 colSpecular = vec3(0.4);
+		const float glossiness = 120.0;
+		
+		float diffuse = max(  dot( norm, lightDir ) , 0.0 );
+		float ambient = max( -dot( norm, lightDir ) , 0.0 ); // trick
+		float specular = pow(max(dot(norm,halfWay),0.0), glossiness);
+		return colDiffuse  * diffuse
+			 + colAmbient  * ambient
+			 + colSpecular * specular;
+	}
+
+	void main(void)
+	{
+		vec3 col = lighting( normalize(norm_i) );
+		gl_FragColor = texture2D(u_texture, v_texcoord);
+	}
+</script>
+<!-- gl_FragColor = vec4( col , 1.0); -->
+
+                                  <!-- JAVASCRIPT CODE -->
+
+<script type="text/javascript" src="matrices.js"></script>
+
+<script type="text/javascript" src="quaternions.js"></script>
+
+<script type="text/javascript" src="mesh2.js"></script>
+	
+<script type="text/javascript" src="matrixStack.js"></script>
+
+<script type="text/javascript" src="chessRules.js"></script>
+
+
+<script type="text/javascript">
+
+    /* Global variables */
+    var gl = null; // webGL context
+    var mode= 0;
+    var smthSelected=0;
+    var selectedPiece=[-1,-1];
+    var playerTurn=-1; //-1 for whites 1 for darks
+    // locations (indices) of the attributes
+    const posAttributeIndex = 0;
+    const normAttributeIndex = 1;
+    const texAttributeIndex = 2;
+    // locations of the uniform "mvp", "lightDir", etc
+    var mvp_loc; 
+    var lightDir_loc;
+    var halfWay_loc;
+    var colDiffuse_loc;
+    
+    // meshes (in GPU)
+    var cubeW,cubeD,cubeY, cone, cyl, roomCorner, objChess=[];
+    var objMeshArr=[], objChessInit=[];
+        
+    var colDiffuse = [ 1.0, 0.0, 1.0 ]; // will be set for each object
+    
+    function setColor( r,g,b){
+       colDiffuse[0] = r;
+       colDiffuse[1] = g;
+       colDiffuse[2] = b;
+    };
+
+    var trackballQ = {
+       qcurr: [1,0,0,0],
+       p0:vec3(1,0,0),
+       p1:vec3(1,0,0),
+       dist: 10,
+       radius: 0.2,
+       getView: function() {    
+        var d = this.dist; 
+       	var center= vec3(0,0,-d);
+        var res = identityMatrix();        
+        var m2 = translationMatrix( 0,0, -d);
+
+        var axis= getAxis(this.p0,this.p1,center);
+        var angle= getAngle(this.p0,this.p1,this.radius,center);
+        var qnew= from_axis_angle(axis,angle);
+        this.qcurr=multQuat(this.qcurr,qnew);
+        var M=quat2Matrix(this.qcurr);
+    // additional translation to bring center of rotation 
+    // in a proper position wrt scene (above floor)
+        var m1 = translationMatrix( 0,0, 0 );
+        
+        res = multMatrix( res, m2 );
+        res = multMatrix( res, M );
+        //res = multMatrix( res, m1 );
+        return res;
+       }
+    };
+    
+    
+    /* Initialization */
+    function setupWebGL() {
+       var canvas = document.getElementById("A-CANVAS");
+       gl = canvas.getContext("experimental-webgl");  // or, "webgl"
+    }
+
+    function setupWhatToDraw() {  
+    	// CpuMesh and GpuMesh defined in module mesh.js 
+	   // unique CPU mesh buffer to transfer data to the GPU
+       var cubeMeshW = Object.create( CpuMesh );
+       var cubeMeshD = Object.create( CpuMesh );
+       var cubeMeshY = Object.create( CpuMesh );
+       
+       // various GPU meshes used by the program
+       cubeW = Object.create( GpuMesh );
+       cubeD = Object.create( GpuMesh );
+       cubeY = Object.create( GpuMesh );
+       cubeW.init(gl);
+       cubeD.init(gl);
+       cubeY.init(gl);
+       for (var i=0;i<8;i++){
+       	objChess[i]=[];
+       	for (var j=0;j<8;j++){
+       		objChess[i][j]=0;
+       	}
+       }
+       for(var i=0;i<13;i++){
+        objMeshArr[i]=Object.create(GpuMesh);
+        objMeshArr[i].init(gl);
+       }
+
+       // create & transfer meshes
+       cubeMeshW.makeCube(-1);
+       cubeMeshD.makeCube(1);
+       cubeMeshY.makeCube(0);
+       cubeW.storeFromCpu( gl, cubeMeshW );
+       cubeD.storeFromCpu( gl, cubeMeshD );
+       cubeY.storeFromCpu( gl, cubeMeshY );
+
+
+       readTextFile("Pawn.obj",objMeshArr[5],-1);
+       readTextFile("Rook.obj",objMeshArr[4],-1);
+       readTextFile("Knight.obj",objMeshArr[3],-1);
+       readTextFile("Bishop.obj",objMeshArr[2],-1);
+       readTextFile("Queen.obj",objMeshArr[1],-1);
+       readTextFile("King.obj",objMeshArr[0],-1);
+
+       readTextFile("Pawn.obj",objMeshArr[7],1);
+       readTextFile("Rook.obj",objMeshArr[8],1);
+       readTextFile("Knight.obj",objMeshArr[9],1);
+       readTextFile("Bishop.obj",objMeshArr[10],1);
+       readTextFile("Queen.obj",objMeshArr[11],1);
+       readTextFile("King.obj",objMeshArr[12],1);
+
+       objChess[0][0]=2;
+       objChess[1][0]=3;
+       objChess[2][0]=4;
+       objChess[3][0]=5;
+       objChess[4][0]=6;
+       objChess[5][0]=4;
+       objChess[6][0]=3;
+       objChess[7][0]=2;
+       for(var i=0;i<8;i++) objChess[i][1]= 1;
+       for(var i=0;i<8;i++) objChess[i][6]= -1;
+       objChess[0][7]=-2;
+       objChess[1][7]=-3;
+       objChess[2][7]=-4;
+       objChess[3][7]=-5;
+       objChess[4][7]=-6;
+       objChess[5][7]=-4;
+       objChess[6][7]=-3;
+       objChess[7][7]=-2;
+
+       objChessInit= JSON.parse(JSON.stringify(objChess));   
+   }
+    
+    function setupHowToDraw() {	 
+        // set OpenGL parameters
+        gl.disable( gl.CULL_FACE ); // back face culling
+        gl.enable( gl.DEPTH_TEST );    
+        // set the VERTEX SHADER
+        var vsSource = document.getElementById("vertexShader").textContent;
+        var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vertexShader, vsSource);
+        gl.compileShader(vertexShader);			   
+        // set the FRAGMENT SHADER
+        var fsSource = document.getElementById("fragmentShader").textContent;
+        var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragmentShader, fsSource);
+        gl.compileShader(fragmentShader);
+        // join them in a "PROGRAM"
+        var myProgram = gl.createProgram();
+        gl.attachShader(myProgram, vertexShader);
+        gl.attachShader(myProgram, fragmentShader);
+        // tell webGL where to find attirbutes
+        gl.bindAttribLocation( myProgram,  posAttributeIndex, "vertexPos" );
+        gl.bindAttribLocation( myProgram,  normAttributeIndex, "normal" );
+        gl.bindAttribLocation( myProgram,  texAttributeIndex, "a_texcoord" );
+        gl.linkProgram(myProgram);
+        // ask webGL where to put uniforms
+        mvp_loc = gl.getUniformLocation( myProgram, "mvp" );
+        tex_loc = gl.getUniformLocation(myProgram,"u_texture");
+        lightDir_loc = gl.getUniformLocation( myProgram, "lightDir" );
+        halfWay_loc = gl.getUniformLocation( myProgram, "halfWay" );
+        colDiffuse_loc = gl.getUniformLocation( myProgram, "colDiffuse" );
+        gl.useProgram(myProgram);
+    }
+
+    function setupTexture(){
+      var texture= gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([0,0,255,255]));
+      var image= new Image();
+      image.src="wood-texture.png";
+      image.addEventListener('load',function(){
+        gl.bindTexture(gl.TEXTURE_2D,texture);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE, image);
+        gl.generateMipmap(gl.TEXTURE_2D);
+      });
+    }
+    
+    
+    /* Rendering */
+    function setUniforms(){
+        // part 1: set & upload transformation matrices:
+        var view = trackballQ.getView();
+        var aspectRatio = 900.0 / 480.0 ;
+        var projection = perspectiveMatrixFOV( 60, aspectRatio, 0.5, 50.0 );
+        
+        var mvp = multMatrix( view, model.top() );
+        mvp = multMatrix( projection, mvp );
+        
+        gl.uniformMatrix4fv( mvp_loc, false, new Float32Array(mvp));
+            
+        // part 2: set & upload light directions etc
+        var lightDir = [ -1.5,1.2,1.5,0 ]; 
+        var viewDir = [ 0,0,1,0 ]; // eye space, for now
+        var halfWay = [];
+
+        var modelInv = invMatrix4(model.top());
+        var viewInv = invMatrix4(view);   
+
+        // view dir: from eye space (always) to object
+        viewDir = multMatrixVec( viewInv, viewDir );  
+        viewDir = multMatrixVec( modelInv, viewDir ); 
+        viewDir = normVec(viewDir);
+        
+        halfWay = [viewDir[0]+lightDir[0], 
+                   viewDir[1]+lightDir[1], 
+                   viewDir[2]+lightDir[2], 
+                   0];
+        halfWay= normVec(halfWay);
+        
+        gl.uniform3f( lightDir_loc,	 lightDir[0],lightDir[1],lightDir[2] );
+        gl.uniform3f( halfWay_loc,	 halfWay[0], halfWay[1], halfWay[2] );
+        gl.uniform3f( colDiffuse_loc, 
+                           colDiffuse[0], colDiffuse[1], colDiffuse[2] );
+        
+    }
+    
+// draw functions
+
+    // draws a pillar (height h) with an objeect on top (detail level lvl)
+    function drawPillar(  lvlX , h, lvlZ,selected) {
+       
+       model.push();
+       model.translate(0,-3,0);
+       model.scale(4,3,4);
+       setUniforms(); 
+       if(selected==1){
+         cubeY.draw(gl);
+       }
+       else if ((lvlX+lvlZ)%2!=0){
+         cubeD.draw(gl);
+       }
+       else{
+        cubeW.draw(gl);
+       }
+       model.pop();
+       // object on top
+       model.push(); 
+
+       
+       // from object space to column space
+       var piece=objChess[lvlX][lvlZ];
+       var m = objMeshArr[6+piece];
+       var XZspan = Math.max(m.maxX-m.minX, m.maxZ-m.minZ);
+       model.translate( 0, -m.minY*4.0/XZspan ,0  );
+       model.scale( 4.0/XZspan ); // object should fit base
+       setUniforms();
+       objMeshArr[6+piece].draw(gl);
+
+       model.pop(); // back to Column space!
+    }
+    
+    // rendering: fill screen buffer
+    function draw() {
+    	if (typeof selectedPiece == 'undefined' ) selectedPiece = [-1,-1];
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        
+        model.init();
+        model.scale( 0.1, 0.1, 0.1 );
+        const N_COL = 8;
+        const N_ROW = 8;
+        model.translate( -(N_COL-1)*8/2, 0, -(N_ROW-1)*8/2);
+        for (var i=0; i<N_COL; i++ ) {
+        	for (var j=0;j<N_ROW;j++){
+	          model.push();
+	          model.translate( i*8-4, 0, j*8-4 );
+	          var selected=0;
+	          if (selectedPiece[0]==i && selectedPiece[1]==j) selected=1;
+	          drawPillar( i, 4,j,selected);
+	          model.pop();
+        	}
+        }   
+        //drawRoom();       
+    }
+    
+    
+    /* callbacks */
+    function readTextFile(filename,myGpuMesh,col)
+    {  
+        var rawFile = new XMLHttpRequest() || new ActiveXObject('MSXML2.XMLHTTP');
+        rawFile.open("GET", filename, true);
+        rawFile.onreadystatechange = function ()
+        {
+            if (rawFile.readyState === 4 && rawFile.status === 200)
+            {
+                var allText = rawFile.responseText;
+                var myCpuMesh = Object.create( CpuMesh );
+		        myCpuMesh.importOBJfromString( allText,col);
+		        myCpuMesh.updateAABB();
+                myCpuMesh.updateNormals();
+                myCpuMesh.autocenterNormalize();
+		        myGpuMesh.storeFromCpu(gl, myCpuMesh);
+                draw();
+            }
+        }
+        rawFile.send();
+    }
+
+    function myOnLoad() {
+        setupWebGL();
+        setupWhatToDraw();
+        setupHowToDraw();
+        setupTexture();
+        draw();
+    }
+    
+    var lastMousePosX, lastMousePosY;
+    
+    function myMouseDown( event ) {
+        lastMousePosX = event.screenX-10-450;
+        lastMousePosY = 240+140-event.screenY;
+    }
+
+
+    function myMouseMove( event ) {
+        if (event.buttons==0) return;
+        if (mode==1) return;     
+        var x = ((event.screenX-10)-450)/450; //center the px in canvas
+        var y = (240-(event.screenY-140))/240;
+        
+        var dy = y*240- lastMousePosY;
+        p0=vec3(lastMousePosX/450,lastMousePosY/240,0);
+        p1=vec3(x,y,0);    
+
+
+        if (event.buttons==1) { // left button is held down
+        	lastMousePosX = event.screenX-10-450;
+        	lastMousePosY = 240+140-event.screenY;
+
+            trackballQ.p0 = p0;
+            trackballQ.p1 = p1;
+            draw();
+        }
+        if (event.buttons==4) { //mid button is held down
+            trackballQ.dist *= 1.0-dy*0.002;
+        	lastMousePosX = event.screenX-10-450;
+        	lastMousePosY = 240+140-event.screenY;
+            draw();
+        }
+    }
+    function myMouseUp( event ) {
+    	if (mode==0) return;
+    	var precision=383/8
+    	var i=Math.floor((lastMousePosX+216)/precision);
+    	var j=7-Math.floor((lastMousePosY+169)/precision);
+    	if (i<0 || i>7 || j<0 || j>7){
+			selectedPiece=[-1,-1];
+			smthSelected=0;
+			draw();    		
+    		return;
+    	}
+    	var selectedSquare=[i,j];
+    	if (i==selectedPiece[0] && j==selectedPiece[1]){
+			selectedPiece=[-1,-1];
+			smthSelected=0;
+			draw();
+			return;
+    	}
+    	play(selectedSquare);
+    }
+
+    function play(selectedSquare){
+		if (smthSelected==1){
+			if (!possibleMove(objChess,selectedPiece,selectedSquare)){
+				alert("Invalid move! Try again");
+				return;
+			}
+			var end=move(selectedSquare);
+			selectedPiece=[-1,-1];
+			smthSelected=0;
+			draw();
+			playerTurn*=-1;
+    		if(playerTurn<0) document.getElementById("playerTurn").innerHTML="White Player Turn!";
+    		else document.getElementById("playerTurn").innerHTML="Dark Player Turn!";
+		}
+		else{
+			if (permittedPiece(playerTurn,objChess,selectedSquare)){
+				selectedPiece= [selectedSquare[0],selectedSquare[1]];
+				smthSelected=1;
+				draw();
+			}
+			else{
+				return;
+			}
+		}
+		if(end==-1){
+			alert("White wins!");
+			resetGame();
+		}
+		if(end==1){
+			alert("Dark wins");
+			resetGame();
+		}
+	}
+	function move(selectedSquare){
+		var i_0=selectedPiece[0];
+		var j_0=selectedPiece[1];
+		var i_1=selectedSquare[0];
+		var j_1=selectedSquare[1];
+
+		var end=0;
+		if (Math.abs(objChess[i_1][j_1])==6){
+			end=-6/objChess[i_1][j_1];
+		}
+		objChess[i_1][j_1]=objChess[i_0][j_0];
+	   	objChess[i_0][j_0]=0;
+	   	return end;
+	}
+	function resetGame(){
+		objChess= JSON.parse(JSON.stringify(objChessInit));
+		draw();
+    	document.getElementById("playerTurn").innerHTML="White Player Turn!";
+	}
+    function changeMode(){
+    	if (mode==0){
+    		document.getElementById("mode").innerHTML="View Mode!";
+    		gameMode();
+    		mode=1; //mode 1 is for game
+    	}
+    	else if (mode==1){
+    		document.getElementById("mode").innerHTML="Game Mode!";
+    		viewMode();
+    		mode=0; //mode 0 is for view
+    	} 
+    }
+    function gameMode(){
+    	document.getElementById("playerTurn").innerHTML="White Player Turn!";
+	   var v= vec3(Math.sin(-Math.PI/4),0,0)
+	   var w= Math.cos(-Math.PI/4);
+	   trackballQ.qcurr= [w,v[0],v[1],v[2]];
+	   trackballQ.p0=vec3(1,0,0);
+	   trackballQ.p1=vec3(1,0,0);
+	   trackballQ.dist=7;
+   		draw();
+    }
+    function viewMode(){
+    	document.getElementById("playerTurn").innerHTML="The chess is in view mode!";
+    	trackballQ.dist=10;
+    	draw();
+    }
+
+    // register callbacks
+    window.onload = myOnLoad;
+    window.onmousemove = myMouseMove;
+    window.onmousedown = myMouseDown;
+    window.onmouseup = myMouseUp;
+ 
+</script>
+</head>
+  
+<body>
+
+<canvas
+	id     = "A-CANVAS"
+	width  = "900px"
+	height = "480px"
+></canvas>
+<button onclick="changeMode()" id="mode" style="font-size : 20px; width:140px; position: absolute; left: 769;">Game Mode!</button>
+<p id="playerTurn">The chess is in view mode!</p>
+</ul></p>
+</ul></p>
+
+</body>
+  
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="data-visualization-1819---final-project">Data Visualization 18/19 - Final Project</h1>
+<h1 id="rules-datasets-and-ideas">Rules, Datasets and Ideas</h1>
+<h2 id="intro-and-rules">Intro and Rules</h2>
+<ul>
+<li><p>Main goals: spark your interest, and have fun!</p></li>
+<li><p>Most data are not related to computer science. Focus on datavis as a swiss army knife for data science in general. This means...</p>
+<ul>
+<li>Politics, social studies, economics, science in general. Tools to help other scientists in their work, or relevant for the public at large (information, education, dissemination, etc).</li>
+</ul></li>
+<li><p>Choose a dataset, and sketch a design proposal before June 3rd. (Be aware - not a lot of time!)</p></li>
+<li><p>You will present your design proposal to the class. Expect feedback!</p></li>
+<li><p>Fancy to propose a dataset/topic of your choice? OK, but write to us ASAP so that we can check it, and we can either give you a green light or tell you to choose something else instead.</p></li>
+<li><p>It will not be required to be experts in all these fields, obviously. But curiosity and effort on your part will be part of the game.</p></li>
+<li><p>Be careful about data preprocessing and preparation - for a lot of these datasets, it may be time consuming, either by hand, using excel, a scripting language of your choice, or a combination of all the above.</p></li>
+<li><p>The amount of data preparation needed will be taken into account when grading final results.</p></li>
+</ul>
+<h2 id="international-migrant-stock">01. International migrant stock</h2>
+<center>
+<img src = "fig/migstocks.jpg" width = "400"/>
+</center>
+<p>Suggested by Matteo Fontana, PhD student, POLIMI. <a href="http://www.cobham-erc.eu/team/matteo-fontana/" class="uri">http://www.cobham-erc.eu/team/matteo-fontana/</a></p>
+<p>Topic: Social sciences</p>
+<p>The dataset presents estimates of international migrant by age, sex and origin. Estimates are presented for 1990, 1995, 2000, 2005, 2010, 2015 and 2017 and are available for all countries and areas of the world.</p>
+<p>Available data are tables, but may be easily related to maps; graph of origin-destination available in table form.</p>
+<p>See and download data and related docuentation from <a href="http://www.un.org/en/development/desa/population/migration/data/estimates2/estimates17.shtml" class="uri">http://www.un.org/en/development/desa/population/migration/data/estimates2/estimates17.shtml</a></p>
+<p>Vis scope: tabular, geography, network</p>
+<p>Difficulty: average/high (high only if network vis is addressed)</p>
+<h2 id="africa-migrants-and-incomes">02. Africa: migrants and incomes</h2>
+<center>
+<img src = "fig/migrants.jpg" width = "350"/>
+</center>
+<p>Suggested by Matteo Villa - ISPI - twitter: <span class="citation">@emmevilla</span></p>
+<p>Topic: Social sciences</p>
+<p>The dataset contains a few sheets in excel files reporting information about asylum requests from Africa to Italy and Europe (from 2013 to 2018). The dataset contains information also about the total population, the per capita GDP and the percentage of migrants for each African state.</p>
+<p>Available data are tables, but may be easily related to maps. Possible combination with the previous dataset, but the scope is reduced (only African countries on the emigration side and Europe as a whole, or Italy alone on the immigratin side).</p>
+<p>Vis scope: tabular, geography, network</p>
+<p>Difficulty: average/high (high only if network vis is addressed)</p>
+<h2 id="web-pages-network">03. Web pages network</h2>
+<center>
+<img src = "fig/words_big.png" width = "600"/>
+</center>
+<p>Suggested by <strong>Prof. Annalisa Barla</strong>, DIBRIS and <strong>Davide Garbarino</strong>, PhD student, DIBRIS.</p>
+<p>Topic: Data science, Social sciences</p>
+<p>The datasets present two web networks: the first one is the existing hyperlink network between the web-pages of the Students' section of the University of Genova website; the second one contains the same nodes of the first one, while edges correspond to correlation in terms of content similarity.</p>
+<p>The aim of the study is measuring how much similar the two networks are.</p>
+<p>Available data are dataframes,<code>.csv</code> files. More details are available in the readme files.</p>
+<p>Vis scope: network</p>
+<p>Difficulty: easy/average (the dataset is easy, network visualization is an intrinsically non trivial subject)</p>
+<h2 id="unige-students-careers">04. Unige students careers</h2>
+<center>
+<img src = "fig/degree1.jpg" width = "350"/>
+</center>
+<p>Suggested by Cristina Gatti (Cedia)</p>
+<p>Topic: Social sciences</p>
+<p>The dataset presents information relating to students enrolled at the University of Genoa from 2012 to 2018. You can choose to compute analysis related to a single year and/or analysis over several years.</p>
+<p>Student's information is presented in 3 datasets:</p>
+<ol style="list-style-type: decimal">
+<li>Personal information</li>
+<li>Enrolment and Degree</li>
+<li>Exams information</li>
+</ol>
+<p>These three data sets could be visualized both separately and together. You can join the information in the three data sets in order to have a global idea of each single student university path. You can also make a lot of comparisons reagarding any type of variable in the datasets. It is a wide range of information: you can play around as you like.</p>
+<p>Vis scope: tabular</p>
+<p>Difficulty: average</p>
+<h2 id="d-grasping-in-immersive-vr">05. 3D grasping in immersive VR</h2>
+<center>
+<img src = "fig/3Dgrasping.png" width = "400"/>
+</center>
+<p>Suggested by Manuela Chessa, UNIGE. <a href="http://www.dibris.unige.it/en/chessa-manuela" class="uri">http://www.dibris.unige.it/en/chessa-manuela</a></p>
+<p>Topic: Human-Computer Interaction</p>
+<p>The dataset presents the 3D positions of the thumbs and the index when performing a grasp action in immersive VR. Different objects are randomly presented and 3D positions collected for the entire duration of the action (rest, planning, grasp, movement and release).</p>
+<p>Available data are text files containg the temporal sequence of acquired 3D positions of two fingers (thumb and forefinger).</p>
+<p>This dataset is best managed in the context of a combined DV-CGAR project, where also the 3D visualization of data and related trajectories is addressed. A simplified DV-only version is possible by addressing data just as time series and deriving data such as statistics, velocities, etc.</p>
+<p>Vis scope: time series, 3D</p>
+<p>Difficulty: average. For a combined DV-CGAR version the workload must be appropriate for the union of two projects.</p>
+<h2 id="session-data-of-eye-tracking-therapeutic-games">06. Session data of eye-tracking therapeutic games</h2>
+<center>
+<img src = "fig/eyetrack.jpg" width = "400"/>
+</center>
+<p>suggested by Luigi Rocca / Dotdotdot luigi@dotdotdot.it</p>
+<p><a href="http://www.dotdotdot.it">www.dotdotdot.it</a></p>
+<p><a href="http://togethertogo.org/">togethertogo.org</a></p>
+<p><a href="http://www.fondazionejustitalia.org">www.fondazionejustitalia.org</a></p>
+<p>Tog is a no-profit organization. It has founded a rehabilitation center for children with complex neurological pathologies. Opendot is developing for them a suite of eye-tracking based games. The children will be able to play and care givers to control and monitor the experience. The game controls for the children work through eye tracking only on a desktop computer. Therapists control game parameters and the interactive experience as a whole using a control panel on a separate tablet.</p>
+<p>A visualization tool for the data generated and collected during a gaming session would help therapist and data scientists to evaluate afterwards the general quality of a gaming session with a child. The data collected has high granularity, registering all low level changes in the rendered scene and all the gaze raw data used as input.</p>
+<p>On the one hand, a tool could load a single track and allow for a granular evaluation of the quality of interactions during it. The right balance must be found though, because displaying only the low level stuff without highlighting the correlations hidden between different data flows would not be useful.</p>
+<p>On the other hand, a tool could load and visualize multiple sessions in order to evaluate groups of them as a whole and compare them. This would enable complex tasks such as understanding at a glance if during multiple sessions a child becomes more engaged with a game and better at playing it, or a comparison of common traits and issues during game play related to different pathologies in different children.</p>
+<p>A comprehensive tool could also aim to solve the zooming problems intrinsic in the presentation of such high granularity data.</p>
+<p>Solving all these overlapping goals might be too ambitious for a single course project. It might make sense to focus on specific aspects and to consider a narrower scope. Discuss these issues with your professor and lab assistant before starting your work.</p>
+<p>Data: csv and json files will provide periodic samples of the game data and eye tracking input, plus high level events. Some form of data correlation, fusion and/or elaboration will be necessary.</p>
+<p>Vis scope: time series</p>
+<p>Difficulty: high. Recommended for 2-3 people.</p>
+<h2 id="cruise-diary-dataset">07. Cruise Diary Dataset</h2>
+<center>
+<img src = "fig/boatrender.jpg" width = "350"/>
+</center>
+<p>suggested by Luigi Rocca / Dotdotdot luigi@dotdotdot.it</p>
+<p>The aim is to build a narrative tool that tells the story of a sea cruise using the data collected during the cruise. Optional integration with additional, external data is welcome: for example, weather data from external stations (this is how we collected this type of data for the mockup csv), astronomical data (sunset/sunrise, sun height during the day, moon rising/setting and phases).</p>
+<p>Right now, we are giving you a mockup dataset, because the system for collecting data from the ship is not yet live and running. We will provide real data as it becomes available, and we might expand the mockup data if possible (right now it's just a subset of all possible data fields that we are envisioning). In particular, the mock up dataset still misses: water depth and the cruise guests biometric data.</p>
+<p>Data: a csv file containing time series data for the provided variables.</p>
+<p>Vis scope: time series</p>
+<p>Difficulty: easy, with caveats (developing a &quot;standard&quot; visualization tool should be quite straightforward. The challenge is trying to do something that is aesthetically pleasing and strives toward the goal of unfolding a narrative story through the data).</p>
+<h2 id="family---work-conciliation">08. Family - work conciliation</h2>
+<center>
+<img src = "fig/familywork.jpg" width = "400"/>
+</center>
+<p>Suggested by Prof. Mauro Migliavacca - Unige</p>
+<p>Topic: Social sciences</p>
+<p>This dataset presents data taken from a survey on the family - work conciliation. The sample is composed by people between 30-55 years living in couple or alone and with/without children; singles without children are not considered. A detailed analysis on Italian family and work conciliation can be done.</p>
+<p>You will find the Survey with the codebook and the relative dataset.</p>
+<p><strong>Warning:</strong> dataset documentation in Italian - international students may ask for translation in case they are interested in this dataset</p>
+<p>Vis scope: tabular</p>
+<p>Difficulty: average</p>
+<h2 id="color-vision-deficiencies">09. Color Vision Deficiencies</h2>
+<center>
+<img src = "fig/apples.jpeg" width = "350"/>
+</center>
+<p>Suggested by Alessandro Bruno - INAF-IASF Palermo - alessandro.bruno15@unipa.it</p>
+<p>Topic: health and cognitive sciences</p>
+<p>This dataset is clean and very well structured, yet rather different from the others: it consists of a collection of jpg images (all with the same format). There are color images that provide the stimulus for experiments; fixation b/w images where the (sparse) white pixels correspond to fixation points from the observer; fixation greylevel maps that difuse data from the previous: intensity correspond to zones where fixation is most likely to occur; and modified stimulus images where zones of missing attention for color-blind subjects are recolored artificially.</p>
+<p>The dataset comes with a paper describing the underlying study.</p>
+<p>With a bit of trivial preprocessing (perhaps incorporating a javascript library for images) you can extract tabular data, make statistics and work with visualization techniques a little different from the usual. Possibilities to experiment with heatmaps and color models.</p>
+<p>Data access: <a href="https://github.com/fgugliuzza/saliency/tree/master/etocvd"></a></p>
+<p>javascript library for images: <a href="https://blog.webkid.io/image-processing-in-javascript/" class="uri">https://blog.webkid.io/image-processing-in-javascript/</a></p>
+<p>Vis scope: images (tabular)</p>
+<p>Difficulty: high (easy dataset, but quite non standard vis problem)</p>
+<h2 id="nutritional-choices-and-online-buying-behavior">10. Nutritional choices and online buying behavior</h2>
+<center>
+<img src = "fig/grocery.png" width = "400"/>
+</center>
+<p>Provided by Paolo Crosetto, researcher at INRA-GAEL, Grenoble. <a href="https://paolocrosetto.wordpress.com/" class="uri">https://paolocrosetto.wordpress.com/</a></p>
+<p>Topic: behavioral economics</p>
+<p>This dataset is confidential and comes with a license provided by the authors.</p>
+<p>Nutritional choices in online groceries.</p>
+<ul>
+<li>500 participants.</li>
+<li>2 different shoppings, 15/20 products on average per each shopping.</li>
+<li>data about the participants: sex, age, demography, nutritional quiz.</li>
+<li>data about the products: nutritional values, type of labeling, etc.</li>
+</ul>
+<p>The participants perform their shopping in two different conditions. In the first case, the products are labeled using &quot;reference intake labeling&quot; and in the second case, using &quot;multiple traffic lights&quot; labels.</p>
+<p>On Aulaweb you will find, as provided by the authors: A description and license for the data, a paper (in French, sorry about this) and a presentation (in English, and it should be more than enough if you don't speak French).</p>
+<p>There are two different datasets combined into one: a clean one with just the final purchased items, and a bigger one with all the interface clicks (including searches, items seen but not chosen, items selected and then deleted, etc).</p>
+<p>The full data set contains ~70k items. The clean data set can be otained by filtering using the condition (bought == 1), which should give ~9k items.</p>
+<p>The data set is in RData format. To convert it to csv, see <a href="http://stackoverflow.com/questions/13189467/how-to-convert-rdata-format-into-text-file-format" class="uri">http://stackoverflow.com/questions/13189467/how-to-convert-rdata-format-into-text-file-format</a></p>
+<p>Vis scope: tabular</p>
+<p>Difficulty: average</p>
+<h2 id="household-energy-consumption">11. Household energy consumption</h2>
+<center>
+<img src = "fig/house.png" width = "300"/>
+</center>
+<p>This data set and the following one suggested by: Matteo Fontana.</p>
+<p>Topic: engineering, smart grid, smart appliances.</p>
+<p>Open research dataset, see <a href="http://www.st.ewi.tudelft.nl/~akshay/dred/" class="uri">http://www.st.ewi.tudelft.nl/~akshay/dred/</a></p>
+<p>The deployment consists of several sensors measuring electricity, room occupancy and ambient parameters in a household. The data was collected over a period of 6 months from 5th July to 5th December 2015. The DRED dataset includes:</p>
+<ul>
+<li>Electricity monitoring - aggregated energy consumption and appliance level energy consumption.</li>
+<li>Ambient and environmental information - room-level indoor temperature, outdoor temperature, environmental parameters (wind speed, humidity, precipitation).</li>
+<li>Occupancy information - room-level location information of occupants, WiFi and BT RSSI information for localization</li>
+<li>Household information - house layout, number of appliance monitored, appliance-location mapping, etc.</li>
+</ul>
+<div class="figure">
+<img src="fig/dred.png" title="dred" />
+
+</div>
+<p>Data features:</p>
+<ul>
+<li>Multivariate Data</li>
+<li>Dense Functional Data</li>
+<li>Compositional Data</li>
+<li>(Potentially) Spatial Data</li>
+<li>Time Series Data</li>
+<li>Sampling frequency: from 1 Hz (electrical consumption) to 1 min (temperature) to 1 hour (environmental data).</li>
+<li>Size: ~1GB</li>
+</ul>
+<p>Disclaimer: data set is easy to understand, the challenge is to properly take into account its size and the need for zooming.</p>
+<p>Notes: several files in the datasets were too big (up to more than 1GB for <code>All_data.csv</code>. Those files (marked with <code>__SAMPLE__</code>) have been clipped to the first and last 1000 lines. Contact us for a google drive link to the full version.</p>
+<p>The uploaded version omits a file in h5 format and a sample python script to use it. I will provide it to you in the full version, but I think that we can safely ignore this - as far as I understand, its use should be in experiments about consumption disaggregation (e.g, to understand individual appliances consumption knowing only the aggregate consumption and the list of present appliances - see <a href="https://github.com/nilmtk/nilmtk" class="uri">https://github.com/nilmtk/nilmtk</a> if you are curious about it, but keep in mind it is not required at all to work with this too).</p>
+<p>Vis scope: time series, tabular, (spatial)</p>
+<p>Difficulty: average to high</p>
+<h2 id="comparative-welfare">12. Comparative Welfare</h2>
+<center>
+<img src = "fig/welfare.jpg" width = "400"/>
+</center>
+<p>Suggested by Marcello Natili.</p>
+<p>Topic: social sciences, economics.</p>
+<p>Comparative data about economics and welfare for OECD countries, 1960-2014. ~20 countries, ~300 variables. Variables include:</p>
+<ul>
+<li>Wage, salary, income (including inequality and wealth distribution).</li>
+<li>Social spending, revenue, welfare data (including pensions and health care).</li>
+<li>Education (including primary, secondary, upper).</li>
+<li>Labor force and labor institutions (unions, wage coordination, unemployment, etc).</li>
+<li>Demographic data, Macroeconomic data, Research spending, Market regulation, Political variables, etc.</li>
+</ul>
+<p>There is a huge amount of variables - not all of them are easy to understand. Good documentation is provided though. There are many possibilities, and choosing a small subset among provided variables is advised.</p>
+<p>Vis scope: time series, geo-referenced</p>
+<p>Difficulty: average to high</p>
+<h2 id="data-from-the-berkeley-earth-project">13. Data from the Berkeley Earth project</h2>
+<center>
+<img src = "fig/temp.png" width = "600"/>
+</center>
+<p>Topic: climate science, statistics</p>
+<p>The Berkeley Earth project is a massive undertaking. The aim is analysis of the Earth's surface temperature record.</p>
+<p>The project publishes: * Raw data for all the historical temperature series of monitoring stations around the world they could find (input files). * Normalized data for the aforementioned monitoring station, controlling for biases such as changes in instruments, scientific practices etc. (intermediate data). * Gridded data. * Averaged globe data for land, land+ocean, monthly and daily, etc. * Averaged regional data.</p>
+<p>Most data comes for averages, average highs, average lows.</p>
+<p><a href="http://berkeleyearth.org/data/" class="uri">http://berkeleyearth.org/data/</a></p>
+<p>Vis scope: lot of different options: time series, geo-referenced, etc.</p>
+<p>Difficulty: average to high (depending on what you choose).</p>
+<p>Notes: any download of this dataset is too big for Aulaweb. If you're interested, go on the Berkeley Earth website to understand what they offer, download anything you might find interesting, and send us email so that we can understand together what to choose among those.</p>
+<h2 id="scenarios-from-the-future">14. Scenarios from the future</h2>
+<center>
+<img src = "fig/future.png" width = "500"/>
+</center>
+<p>Suggested by Matteo Fontana.</p>
+<p>Topic: climate science and predictive modeling.</p>
+<p>A new framework that the climate change research community has adopted to facilitate the integrated analysis of future climate impacts, vulnerabilities, adaptation, and mitigation. The framework is known as SSP-IAM.</p>
+<p>SSPs are basically &quot;stories&quot; about the world: qualitative description of very broad patterns of developement.</p>
+<p>Starting from these scenarios, five different Integrated Assessment Models (IAMs) are used to simulate what will happen in the future in terms of environmental and economic variables.</p>
+<p>7 scenarios (SSPs), 5 models (IAMs), 35 different predictions about the world in total.</p>
+<p>The database includes data for every decade from 2010 to 2100, and for every scenario and model, data about:</p>
+<ul>
+<li>GDP</li>
+<li>Population</li>
+<li>Energy</li>
+<li>Land Cover</li>
+<li>Emissions</li>
+<li>Climate</li>
+<li>Economic Indicators</li>
+</ul>
+<p>Data Features:</p>
+<ul>
+<li>Massively multivariate data</li>
+<li>Sparse Functional Data</li>
+<li>Spatial Data</li>
+</ul>
+<p>Disclaimer: very interesting but complex database. If you choose this one, there will be a requirement to somehow &quot;open the black box&quot; of the database, at least in part. Documentation is not obvious. It will probably make sense to plan for the visualization of a subset of variables, and/or to exploit somehow the inner simmetry (35 different series of the same variables across the same time spans). An initial data analysis phase may be required.</p>
+<p>Links:</p>
+<p><a href="http://www.iiasa.ac.at/web/home/research/researchPrograms/Energy/SSP_Scenario_Database.html" class="uri">http://www.iiasa.ac.at/web/home/research/researchPrograms/Energy/SSP_Scenario_Database.html</a> <a href="https://secure.iiasa.ac.at/web-apps/ene/SspDb/dsd?Action=htmlpage&amp;page=about" class="uri">https://secure.iiasa.ac.at/web-apps/ene/SspDb/dsd?Action=htmlpage&amp;page=about</a> <a href="http://www.sciencedirect.com/science/article/pii/S0959378016300681" class="uri">http://www.sciencedirect.com/science/article/pii/S0959378016300681</a></p>
+<p>Notes: the file <code>SSP_IAM_World_5Regs_2017-01-23.csv</code> was too big. I have uploaded a clipped version (marked with <code>__SAMPLE__</code>) that contains the first and last 50k lines of the ~600k total lines in the original file. Contact us for a google drive link to the full version.</p>
+<p>Vis scope: tabular</p>
+<p>Difficulty: high</p>
+<h2 id="world-war-ii">15. World War II</h2>
+<center>
+<img src = "fig/ww2.png" width = "400"/>
+</center>
+<p>Topic: history</p>
+<p>Go take a look at: <a href="http://www.fallen.io/ww2/" class="uri">http://www.fallen.io/ww2/</a> if you haven't already.</p>
+<p>Many possible ideas. Visualization of time lines, battles, numbers, casualties, etc.</p>
+<p>Wikidata example: <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#WWII_battle_durations" class="uri">https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#WWII_battle_durations</a></p>
+<p>Raw data for fallen.io has been downloaded as csv, from here: <a href="https://fusiontables.google.com/DataSource?classic=true&amp;docid=1s4DIw4Zjy9jX25ZvHboDYY24diMLS1ivRkRTY50" class="uri">https://fusiontables.google.com/DataSource?classic=true&amp;docid=1s4DIw4Zjy9jX25ZvHboDYY24diMLS1ivRkRTY50</a></p>
+<p>Vis scope: tabular, time related (discrete), (geo-referenced)</p>
+<p>Difficulty: average</p>
+<h2 id="physiological-data-in-immersive-vr">16. Physiological data in immersive VR</h2>
+<center>
+<img src = "fig/physioVR.jpg" width = "300"/>
+</center>
+<p>Suggested by Manuela Chessa, UNIGE. <a href="http://www.dibris.unige.it/en/chessa-manuela" class="uri">http://www.dibris.unige.it/en/chessa-manuela</a></p>
+<p>Topic: Human-Computer Interaction</p>
+<p>The dataset presents the heart rate and the skin conductance of a subject immersed in a VR scenario.</p>
+<p>Available data are pairs of text files containg the temporal sequence of heart rate and skin conductance, respectively</p>
+<p>Vis scope: time series</p>
+<p>Difficulty: low - recommended for single students</p>
+<h2 id="when-the-kingmaker-stays-home">17. When the kingmaker stays home</h2>
+<center>
+<img src = "fig/box.png" width = "300"/>
+</center>
+<p>Provided by Toni Rodon, researcher at the London School of Economics <a href="http://www.tonirodon.cat/" class="uri">http://www.tonirodon.cat/</a>.</p>
+<p>Topic: political science, electoral studies.</p>
+<p>Abstention and turnout across the political spectrum. The data set has been used as the basis underpinning an already published research article; the aim was to analyze whether the &quot;conventional wisdom&quot; that voters on the left abstain more is true or not, and how socioeconomic and partisan factors influence voters behavior.</p>
+<ul>
+<li>The dataset has information about 197 elections across Europe, with information on turnout and party affiliation.</li>
+<li>~200 lines, ~20 variables.</li>
+<li>Data is characterized by both spatial and time variations (elections in different countries in different years).</li>
+</ul>
+<p>Disclaimer: I would consider this dataset private, although with less strong requirements than other ones. Still, it might be a good idea to contact the author before redistributing it or giving it to others.</p>
+<p>Vis scope: tabular</p>
+<p>Difficulty: low - recommended for single students</p>
+<h2 id="monthly-earnings-and-weekly-hours-in-the-eu">18. Monthly earnings and weekly hours in the EU</h2>
+<center>
+<img src = "fig/pay.png" width = "300"/>
+</center>
+<p>Suggested by Marcello Natili, researcher at SPS, UNIMI. <a href="https://www.researchgate.net/profile/Marcello_Natili" class="uri">https://www.researchgate.net/profile/Marcello_Natili</a></p>
+<p>Topic: social sciences.</p>
+<ol style="list-style-type: decimal">
+<li><p>Monthly earnings, by country.</p></li>
+<li><p>Weekly hours worked, by country.</p></li>
+</ol>
+<p>Data are broken down by:</p>
+<ul>
+<li>Country</li>
+<li>Sex</li>
+<li>Work status</li>
+<li>Work sector</li>
+<li>Year (2008-2015)</li>
+</ul>
+<p>The two data sets could be visualized separately or together. Expect a bit of data manipulation in order to export correctly all the sheets in the excel files and to perform proper data aggregation and organization.</p>
+<p>Vis scope: tabular</p>
+<p>Difficulty: average; low if only one dataset is considered: recommended for single students.</p>
+<h2 id="the-solar-system-masses-surfaces-and-distances-to-scale-or-not">19. The solar system: masses, surfaces and distances to scale (or not)</h2>
+<center>
+<img src = "fig/helio.gif" width = "450"/>
+</center>
+<p>Topic: science, astronomy</p>
+<p>Visualization of celestial bodies, their characteristics, position and relationships is quite an old problem. There is still room for creativity though.</p>
+<p>What if the moon was just one pixel on your screen? <a href="http://joshworth.com/dev/pixelspace/pixelspace_solarsystem.html" class="uri">http://joshworth.com/dev/pixelspace/pixelspace_solarsystem.html</a></p>
+<p>Start from the sun on wikidata and navigate all the solar system bodies using the API and the parent/child relation to obtain all the data you might need: <a href="https://www.wikidata.org/wiki/Q525" class="uri">https://www.wikidata.org/wiki/Q525</a></p>
+<p>Other possible questions that a good interactive infographic could solve:</p>
+<ul>
+<li>Where is most of the mass of the solar system?</li>
+<li>Who's bigger between Pluto, our Moon, and Mercury?</li>
+<li>Bigger by mass, surface, or volume?</li>
+</ul>
+<p>Somewhat relevant xkcd comics: <a href="https://xkcd.com/482/" class="uri">https://xkcd.com/482/</a> <a href="https://xkcd.com/1389/" class="uri">https://xkcd.com/1389/</a> <a href="https://xkcd.com/681/" class="uri">https://xkcd.com/681/</a></p>
+<p>Vis scope: 2D spatial, (tabular)</p>
+<p>Difficulty: low to average - recommended for single students</p>
+<h2 id="other-ideas...">Other ideas...!</h2>
+<h3 id="sports-sports-sports">Sports, sports, sports</h3>
+<p>Sports are missing from the current selection of proposed data sets.</p>
+<p>Soccer, NBA, Olympics, world records, world events, historical series, markets - there are endless possibilities.</p>
+<p>If you can find a database about a discipline or event you are passionate about, just write me and submit a proposal.</p>
+<p>Wikidata could be a good starting point in general.</p>
+<h3 id="the-heliosphere-solar-winds-and-the-interplanetary-magnetic-field">The heliosphere, solar winds and the interplanetary magnetic field</h3>
+<p>Data by NASA about the heliosphere, solar winds and interplanetary magnetic field at different temporal resolutions (1 min and up) from 1963 to today, as collected by various satellites, in a single database. Visualization of temporal series may be performed - see instructions about the data and how to download and process it. Links:</p>
+<ul>
+<li><a href="https://omniweb.gsfc.nasa.gov/coho/helios/heli.html" class="uri">https://omniweb.gsfc.nasa.gov/coho/helios/heli.html</a></li>
+<li><a href="https://omniweb.gsfc.nasa.gov/" class="uri">https://omniweb.gsfc.nasa.gov/</a></li>
+<li><a href="https://omniweb.gsfc.nasa.gov/ow.html" class="uri">https://omniweb.gsfc.nasa.gov/ow.html</a></li>
+</ul>
+<h2 id="other-links">Other links</h2>
+<p>(Just a bucket in the ocean)</p>
+<ul>
+<li><p>WIKIDATA (database with any kind of linked information, online queries and APIs, etc.) Data access: <a href="https://www.wikidata.org/wiki/Wikidata:Data_access" class="uri">https://www.wikidata.org/wiki/Wikidata:Data_access</a> and examples: <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples" class="uri">https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples</a></p></li>
+<li><p>information is beautiful <a href="http://www.informationisbeautiful.net/data/" class="uri">http://www.informationisbeautiful.net/data/</a></p></li>
+<li><p>european social survey <a href="http://www.europeansocialsurvey.org/downloadwizard/" class="uri">http://www.europeansocialsurvey.org/downloadwizard/</a></p></li>
+<li><p>european election studies <a href="http://europeanelectionstudies.net/" class="uri">http://europeanelectionstudies.net/</a></p></li>
+<li><p>convert to geojson <a href="http://www.mapshaper.org/" class="uri">http://www.mapshaper.org/</a></p></li>
+</ul>
+</body>
+</html>
